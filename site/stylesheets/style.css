@@ -1,0 +1,68 @@
+@font-face {
+    font-family: custom-font;
+    src: url('MayhartWindah-9M3y0.otf');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'custom-font';
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "hd hd hd" "lt cn rt" "ft ft ft";
+}
+
+div {
+    border: solid 1px; /*Remove this after you understand the grid layout */
+    min-height: 20vh;
+    min-width: 20vw;
+}
+
+.header {
+    grid-area: hd;
+}
+
+.left {
+    grid-area: lt;
+}
+
+.center {
+    grid-area: cn;
+    text-align: center;
+}
+
+.right {
+    grid-area: rt;
+}
+
+.footer {
+    grid-area: ft;
+}
+
+
+.logo {
+    width: 10%;
+    height: 20%;
+    position: relative;
+}
+
+.title {
+    z-index: 100;
+    position: relative;
+    /* font-size: ; */
+}
+
+.star {
+    width:  10%;
+    height: 20%;
+}
+
+.work_archive_button {
+    background-color: red;
+    color: white;
+}
