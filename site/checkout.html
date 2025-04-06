@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Addison Thomas</title>
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+  </head>
+  <body>
+    <!-- Header (same pattern as other pages) -->
+    <header class="header">
+      <a href="index.html" class="site-title-link">
+        <h1 class="site-title">
+          addi<span class="overlap">s</span>
+          <span class="star-container">
+            <img src="images/red_star.png" alt="red star" class="red-star-in-text" />
+          </span>
+          <span class="overlap">n</span> thomas
+        </h1>
+      </a>
+      <a href="checkout.html">
+        <img src="images/shopping_cart.png" alt="shopping cart" class="cart-icon" />
+      </a>
+    </header>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav">
+      <img src="images/black_star.png" alt="black star" class="black-star" />
+      <ul>
+        <li><a href="archive.html">work archive</a></li>
+        <li><a href="shop.html">shop</a></li>
+        <li><a href="about.html">about</a></li>
+        <li><a href="contact.html">contact</a></li>
+      </ul>
+      <img src="images/black_star.png" alt="black star" class="black-star" />
+    </nav>
+
+    <!-- Main Content: Checkout -->
+    <main class="center checkout-content">
+      <h2>Checkout</h2>
+
+      <!-- Cart Summary Section -->
+      <section id="cart-summary">
+        <h3>Your Cart Items</h3>
+        <div id="cart-items">
+          <!-- Items will be dynamically inserted here -->
+        </div>
+      </section>
+
+      <!-- Checkout Form -->
+      <section id="checkout-form">
+        <h3>Billing Details</h3>
+        <form id="checkoutForm">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" required />
+
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" name="lastName" required />
+
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" name="phone" required />
+
+          <label for="address">Address:</label>
+          <textarea id="address" name="address" rows="3" required></textarea>
+
+          <button type="submit">Send To Vendor</button>
+        </form>
+      </section>
+    </main>
+
+    <div class="footer"></div>
+
+    <!-- JavaScript for Checkout Page -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const cartItemsContainer = document.getElementById('cart-items');
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function renderCart() {
+          cartItemsContainer.innerHTML = '';
+          if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            return;
+          }
+          cart.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('cart-item');
+            itemDiv.innerHTML = `
+              <div class="item-image-container">
+                <img src="${item.src}" alt="${item.name}" width="100">
+                <button data-index="${index}" class="remove-item">Remove</button>
+              </div>
+              <div class="item-title">
+                ${item.name}
+              </div>
+            `;
+            cartItemsContainer.appendChild(itemDiv);
+          });
+        }
+
+        renderCart();
+
+        cartItemsContainer.addEventListener('click', function (e) {
+          if (e.target.classList.contains('remove-item')) {
+            const idx = e.target.getAttribute('data-index');
+            cart.splice(idx, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+          }
+        });
+          // Notification function (same as in shop.html)
+          function showNotification(message) {
+              // Create notification element
+              const notif = document.createElement('div');
+              notif.className = 'notification';
+              notif.textContent = message;
+              document.body.appendChild(notif);
+
+              // After 1 second, begin fade-out
+              setTimeout(() => {
+                  notif.classList.add('fade-out');
+              }, 1000);
+
+              // Remove the notification after 1.5 seconds total
+              setTimeout(() => {
+                  notif.remove();
+              }, 1500);
+          }
+
+          // Checkout form submit handler
+          const checkoutForm = document.getElementById('checkoutForm');
+          checkoutForm.addEventListener('submit', function (e) {
+              e.preventDefault();
+              showNotification("Order submitted to vendor!");
+              localStorage.removeItem('cart');
+              // Redirect after the notification fades away (1.5 seconds)
+              setTimeout(() => {
+                  window.location.href = 'index.html';
+              }, 1500);
+          });
+      });
+    </script>
+  </body>
+</html>

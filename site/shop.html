@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop - Addison Thomas</title>
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+</head>
+
+<body>
+        <header class="header">
+            <a href="index.html" class="site-title-link">
+                <h1 class="site-title">
+                    addi<span class="overlap">s</span>
+                    <span class="star-container">
+                        <img src="images/red_star.png" alt="red star" class="red-star-in-text" />
+                    </span>
+                    <span class="overlap">n</span> thomas
+                </h1>
+            </a>
+            <a href="checkout.html">
+                <img src="images/shopping_cart.png" alt="shopping cart" class="cart-icon" />
+            </a>
+        </header>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav">
+        <img src="images/black_star.png" alt="black star" class="black-star" />
+        <ul>
+            <li><a href="archive.html">work archive</a></li>
+            <li><a href="shop.html">shop</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="contact.html">contact</a></li>
+        </ul>
+        <img src="images/black_star.png" alt="black star" class="black-star" />
+    </nav>
+
+    <!-- Main Content: Shop Items -->
+    <main class="center shop-content">
+        <!-- Optional black star at top -->
+        <img src="images/black_star.png" alt="black star" class="black-star" />
+
+        <h2 class="shop-title">shop</h2>
+
+        <div class="shop-grid">
+            <!-- Shop Items with your provided image sources -->
+            <div class="shop-item">
+                <img src="images/2024_work/baby.JPEG" alt="baby" />
+                <button class="add-to-cart">Add To Cart</button>
+            </div>
+            <div class="shop-item">
+                <img src="images/2024_work/dineware.JPEG" alt="dineware" />
+                <button class="add-to-cart">Add To Cart</button>
+            </div>
+            <div class="shop-item">
+                <img src="images/2024_work/eyeball_sculpture.JPEG" alt="eyeball_sculpture" />
+                <button class="add-to-cart">Add To Cart</button>
+            </div>
+            <div class="shop-item">
+                <img src="images/2024_work/fly_trap.JPEG" alt="fly_trap" />
+                <button class="add-to-cart">Add To Cart</button>
+            </div>
+            <div class="shop-item">
+                <img src="images/2025_work/deer_teeth.JPEG" alt="deer" />
+                <button class="add-to-cart">Add To Cart</button>
+            </div>
+            <div class="shop-item">
+                <img src="images/2025_work/black_white_bone_cup.JPEG" alt="bone_cup" />
+                <button class="add-to-cart">Add To Cart</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="footer"></div>
+
+    <!-- JavaScript to add shop items to local storage -->
+    <script>
+        // Add event listeners to all "Add To Cart" buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function () {
+                // Find the parent shop item and its image
+                const shopItem = this.closest('.shop-item');
+                const img = shopItem.querySelector('img');
+                const item = {
+                    name: img.alt, // using the alt text as the item name
+                    src: img.src
+                };
+                // Retrieve the cart array from localStorage, or start a new one
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Show custom notification popup
+                showNotification(item.name + ' added to cart!');
+            });
+        });
+        function showNotification(message) {
+            // Create notification element
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = message;
+            document.body.appendChild(notif);
+
+            // After 1.5 seconds, fade out and remove the element
+            setTimeout(() => {
+                notif.classList.add('fade-out');
+            }, 1000); // Begin fade out after 1 second
+
+            setTimeout(() => {
+                notif.remove();
+            }, 1500); // Remove after 1.5 seconds total
+        }
+    </script>
+</body>
+
+</html>
